@@ -41,11 +41,11 @@
   ansible.builtin.set_fact:
     ovn_copy_shell_vars: |
       STORAGE_CLASS={{ storage_class_name }}
-      PODIFIED_OVSDB_NB_IP={{ podified_ovn_nb_ip_result.stdout }}
-      PODIFIED_OVSDB_SB_IP={{ podified_ovn_sb_ip_result.stdout }}
+      PODIFIED_OVSDB_NB_IP=[{{ podified_ovn_nb_ip_result.stdout }}]
+      PODIFIED_OVSDB_SB_IP=[{{ podified_ovn_sb_ip_result.stdout }}]
       OVSDB_IMAGE={{ ovn_image }}
 
-      SOURCE_OVSDB_IP={{ source_ovndb_ip }}
+      SOURCE_OVSDB_IP=[{{ source_ovndb_ip }}]
 
       CONTROLLER1_SSH="{{ controller1_ssh }}"
       CONTROLLER2_SSH="{{ controller2_ssh }}"

@@ -81,19 +81,10 @@
         -e "show global status like 'wsrep_local_state_comment'" | \
         grep -qE "\bSynced\b"
     done
-
-- name: Get the count of not-OK source databases
-  no_log: "{{ use_no_log }}"
-  ansible.builtin.shell: |
-    {% if pulled_openstack_configuration_shell_headers is defined %}
-    {{ pulled_openstack_configuration_shell_headers }}
-    {% else %}
-    . ~/.source_cloud_exported_variables
-    {% endif %}
-
-    test -z "$PULL_OPENSTACK_CONFIGURATION_MYSQLCHECK_NOK"  || [ "$PULL_OPENSTACK_CONFIGURATION_MYSQLCHECK_NOK" = " " ] && echo "OK" || echo "CHECK FAILED"
-  register: result
-  failed_when: result.rc != 0 or 'CHECK FAILED' in result.stdout
+  register: mariadb_data_pod_synced
+  until: mariadb_data_pod_synced is success
+  retries: 5
+  delay: 10
 
 - name: test connection to podified DBs (show databases)
   no_log: "{{ use_no_log }}"

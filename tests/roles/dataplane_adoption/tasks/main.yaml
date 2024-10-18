@@ -97,6 +97,8 @@
       namespace: openstack
     data:
       19-nova-compute-cell1-workarounds.conf: |
+        [DEFAULT]
+        my_ip = fd00:bbbb::100
         [workarounds]
         disable_compute_service_check_for_ffu=true
     EOF
@@ -118,6 +120,8 @@
       namespace: openstack
     data:
       19-nova-compute-cell1-workarounds.conf: |
+        [DEFAULT]
+        my_ip = fd00:bbbb::100
         [workarounds]
         disable_compute_service_check_for_ffu=true
       03-ceph-nova.conf: |

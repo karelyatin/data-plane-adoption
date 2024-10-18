@@ -17,6 +17,7 @@
 
 - name: saves a fernet token
   no_log: "{{ use_no_log }}"
+  when: prelaunch_test_instance|bool
   ansible.builtin.shell:
     cmd: |
       {{ shell_header }}
@@ -24,11 +25,13 @@
   register: before_adoption_token
 
 - name: debug token
+  when: prelaunch_test_instance|bool
   ansible.builtin.debug:
     var: before_adoption_token
 
 - name: create credential for sanity checking its value after adoption
   no_log: "{{ use_no_log }}"
+  when: prelaunch_test_instance|bool
   ansible.builtin.shell:
     cmd: |
       {{ shell_header }}

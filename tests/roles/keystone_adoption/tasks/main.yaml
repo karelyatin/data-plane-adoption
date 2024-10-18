@@ -70,10 +70,12 @@
     done
 
 - name: debug token
+  when: prelaunch_test_instance|bool
   ansible.builtin.debug:
     var: before_adoption_token
 
 - name: Verify that pre-adoption token still works
+  when: prelaunch_test_instance|bool
   ansible.builtin.shell: |
     {{ shell_header }}
     {{ oc_header }}
@@ -82,6 +84,7 @@
     ${BASH_ALIASES[openstack]} endpoint list
 
 - name: Verify that pre-adoption credential stills the same
+  when: prelaunch_test_instance|bool
   ansible.builtin.shell: |
     {{ shell_header }}
     {{ oc_header }}

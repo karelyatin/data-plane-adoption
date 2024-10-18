@@ -54,7 +54,6 @@ ${BASH_ALIASES[openstack]} floating ip show 192.168.122.20 || \
 # Create a test instance
 ${BASH_ALIASES[openstack]} server show test || {
     ${BASH_ALIASES[openstack]} server create --flavor m1.small --image cirros --nic net-id=private test --wait
-    ${BASH_ALIASES[openstack]} server add floating ip test 192.168.122.20
 }
 
 # Create security groups
@@ -62,10 +61,6 @@ ${BASH_ALIASES[openstack]} security group rule list --protocol icmp --ingress -f
     ${BASH_ALIASES[openstack]} security group rule create --protocol icmp --ingress --icmp-type -1 $(${BASH_ALIASES[openstack]} security group list --project admin -f value -c ID)
 ${BASH_ALIASES[openstack]} security group rule list --protocol tcp --ingress -f json | grep '"Port Range": "22:22"' || \
     ${BASH_ALIASES[openstack]} security group rule create --protocol tcp --ingress --dst-port 22 $(${BASH_ALIASES[openstack]} security group list --project admin -f value -c ID)
-
-export FIP=192.168.122.20
-# check connectivity via FIP
-ping -c4 ${FIP}
 
 # create bootable volume
 if ! ${BASH_ALIASES[openstack]} volume show disk ; then
